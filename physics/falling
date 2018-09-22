@@ -1,5 +1,32 @@
 //the equation for vertical projectile motion is y=(initial velocity)*t*sin(angle)-(1/2)*g*t^2
 //where t = time, unit doesn't matter as long as it's scaled with g
-//g = the coefficient of gravity, which can be increased or decreased depending on what we want.  For realistic effects, we can make this number equal to 5 times the height of the player, assuming the player is human-sized.
+//g = the coefficient of gravity, which can be increased or decreased depending on what we want.  For realistic effects, we can make this number equal to (5 divided by ticks per second) times the height of the player, assuming the player is human-sized.
 //the equation for horizontal motion, assuming a lack of friction, is much simpler.  x=(initial velocity)*t*cos(angle)
 //all things considered, most games do not use this, and instead have a constant angle (usually 90 degrees) for vertical motion, with horizontal motion determined by the movement keys as normal, allowing for aerial control of the character
+//we should therefore implement a variable for current vertical speed that is constantly referenced and utilized for movement.
+//assuming 0,0 is bottom left
+//BEGIN character movement
+//assuming character has float VSpeed(), float[] Position(), void MoveTo(float[]), boolean jumpButtonPressed(), void setVSpeed(float tSpeed), float baseHorizontalSpeed(), boolean isJumping()
+public void character movement(player tPlayer){
+float fNetHorizSpeed = 0;
+float gravityAcceleration = 10;
+float terminal_velocity = -220;
+float[] fPositionHolder = new float[2]; //or however you freaking instantiate arrays, I don't remember, it just needs two values
+if tPlayer.jumpButtonPressed() AND (tPlayer.isJumping()=false){
+tPlayer.setVSpeed(100); //or whatever we want the initial jumping velocity to be, in pixels per tick
+}
+if tPlayer.rightButtonPressed(){
+fNetHorizSpeed + tPlayer.baseHorizontalSpeed();
+}
+if tPlayer.leftButtonPressed(){
+fNetHorizSpeed - tPlayer.baseHorizontalSpeed();
+}
+//if we want a smoother control experience, we should probably implement acceleration, in which case, we need to be able to set and receive the players current horizontal speed
+if tPlayer.isJumping(){
+tPlayer.setVSpeed(math.max(tPlayer.VSpeed()-10,terminal_velocity));//makes sure that the player does not fall faster than the maximum falling speed
+}
+fPositionHolder = tPlayer.Position();
+fPositionHolder[1] = fPositionHolder[1] + fNetHorizSpeed;
+fPositionHolder[2] = fPositionHolder[2] + tPlayer.VSpeed();
+tPlayer.MoveTo(fPositionHolder);
+}
