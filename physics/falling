@@ -12,21 +12,23 @@ public void character movement(player tPlayer){
 float gravityAcceleration = 10;
 float terminal_velocity = -220;
 float[] fPositionHolder = new float[2]; //or however you freaking instantiate arrays, I don't remember, it just needs two values
-if tPlayer.jumpButtonPressed() AND (tPlayer.isJumping()=false){
+if tPlayer.jumpButtonPressed() AND (tPlayer.isJumping()=false){  //I'm not sure if the button presses should be on the player or elsewhere.  we can also make it so that each player has THIS PROGRAM included in them as a method, with each method being called by the game in the game's overall game loop.  The code would obviously be modified accordingly
 tPlayer.setVSpeed(100); //or whatever we want the initial jumping velocity to be, in pixels per tick
 }
-if tPlayer.rightButtonPressed(){
+if tPlayer.rightButtonPressed(){  //see jumpbuttonpressed note
 tPlayer.setHSpeed(tPlayer.HSpeed() + tPlayer.baseHorizontalAcc());
 }
-if tPlayer.leftButtonPressed(){
+if tPlayer.leftButtonPressed(){  //see jumpbuttonpressed note
 tPlayer.setHSpeed(tPlayer.HSpeed() - tPlayer.baseHorizontalAcc());//make it so that the setHSpeed function itself checks the new speed against maxHSpeed(), and makes sure that the absolute value of it's current HSpeed is less than the maximum value
 }
 //if we want a smoother control experience, we should probably implement acceleration, in which case, we need to be able to set and receive the players current horizontal speed
 if tPlayer.isJumping(){
 tPlayer.setVSpeed(math.max(tPlayer.VSpeed()-10,terminal_velocity));//makes sure that the player does not fall faster than the maximum falling speed
 }
-fPositionHolder = tPlayer.Position();
-fPositionHolder[1] = fPositionHolder[1] + tPlayer.HSpeed();
+fPositionHolder = tPlayer.Position();  // begin updating player's position, based off of the speed values we received.  The player's current position is deposited into a test variable
+fPositionHolder[1] = fPositionHolder[1] + tPlayer.HSpeed();  //updates the player's horizontal position based off of the player's current Horizontal speed.
+//NOTE: POTENTIAL BUG: as it is written, a player will not stop unless it collides or until another button is pressed.  Perhaps simulate frictin by having speed slowly reach zero?
+//NOTE: POTENTIAL BUG: as it is, vertical speed will not reset to zero.  perhaps we can do this when we implement collision?
 fPositionHolder[2] = fPositionHolder[2] + tPlayer.VSpeed();
-tPlayer.MoveTo(fPositionHolder);
+tPlayer.MoveTo(fPositionHolder);  //updates the player's position to the new x and y coordinates.
 }
