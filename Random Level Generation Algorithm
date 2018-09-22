@@ -1,0 +1,23 @@
+//Please note that this is an algorithm, and is not a functional program.
+New Level triggered
+<stuff that happens between levels happens>
+Gets the available level size, or sets one itself if it cannot find one
+Places platforms and tiles randomly
+places the start
+paces a platform under the start
+places the goal at least a certain number of units away from the start.
+places a platform under the goal
+for each tile, checks to make sure the goal is not completely boxed in.  Removes and replaces latest tile if such becomes the case
+for each platform, checks that it is not too close to the ceiling, and moves it down if it is.
+places hazards within at least a certain number of units of a platform or tile
+moves hazards if they are blocking the goal
+places powerups randomly, each power up must be placed on a platform, selected randomly
+if a selected platform already has a powerup, the powerup is not placed
+if a placed powerup is inaccessable, moves the powerup to another available space on the platform
+if no space is available on the platform, unloads the powerup
+places enemies randomly, which must be placed on a tile or platform
+for each enemy, checks if enemies overlap with tiles, platforms, or powerups, and moves it if this is true
+after 10 attempts to move an enemy, the enemy is unloaded
+checks to make sure there is a way to get from the start to the goal.  Restarts generation if there is not
+loads level
+begin level
