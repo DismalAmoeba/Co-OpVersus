@@ -1,0 +1,43 @@
+import java.lang.Math;
+public class Physics {
+//the equation for vertical projectile motion is y=(initial velocity)*t*sin(angle)-(1/2)*g*t^2
+//where t = time, unit doesn't matter as long as it's scaled with g
+//g = the coefficient of gravity, which can be increased or decreased depending on what we want.  For realistic effects, we can make this number equal to (5 divided by ticks per second) times the height of the player, assuming the player is human-sized.
+//the equation for horizontal motion, assuming a lack of friction, is much simpler.  x=(initial velocity)*t*cos(angle)
+//all things considered, most games do not use this, and instead have a constant angle (usually 90 degrees) for vertical motion, with horizontal motion determined by the movement keys as normal, allowing for aerial control of the character
+//we should therefore implement a variable for current vertical speed that is constantly referenced and utilized for movement.
+//assuming 0,0 is bottom left
+//BEGIN character movement
+//assuming character has float VSpeed(), float HSpeed(), float maxHSpeed(), void setHSpeed(float tSpeed), float[] Position(), void MoveTo(float[]), boolean jumpButtonPressed(), void setVSpeed(float tSpeed), float baseHorizontalAcc(), boolean isJumping()
+public void character_movement(player tPlayer){
+//float fNetHorizSpeed = 0;  -- depreciated, to be deleted on the next update version
+float gravityAcceleration = 10;
+float terminal_velocity = -220;
+float[] fPositionHolder = new float[2]; //or however you freaking instantiate arrays, I don't remember, it just needs two values
+if (tPlayer.jumpButtonPressed() && (tPlayer.isJumping()=false)){  
+//I'm not sure if the button presses should be on the player or elsewhere.  we can also make it so that each player has THIS PROGRAM included in them as a method, with each method being called by the game in the game's overall game loop.  The code would obviously be modified accordingly
+tPlayer.setVSpeed(100); 
+//or whatever we want the initial jumping velocity to be, in pixels per tick
+}
+if (tPlayer.rightButtonPressed()){  
+//see jumpbuttonpressed note
+tPlayer.setHSpeed(tPlayer.HSpeed() + tPlayer.baseHorizontalAcc());
+}
+if (tPlayer.leftButtonPressed()){  
+//see jumpbuttonpressed note
+tPlayer.setHSpeed(tPlayer.HSpeed() - tPlayer.baseHorizontalAcc());//make it so that the setHSpeed function itself checks the new speed against maxHSpeed(), and makes sure that the absolute value of it's current HSpeed is less than the maximum value
+}
+//if we want a smoother control experience, we should probably implement acceleration, in which case, we need to be able to set and receive the players current horizontal speed
+if (tPlayer.isJumping()){
+tPlayer.setVSpeed(Math.max(tPlayer.VSpeed()-10,terminal_velocity));//makes sure that the player does not fall faster than the maximum falling speed
+}
+fPositionHolder = tPlayer.Position();  // begin updating player's position, based off of the speed values we received.  The player's current position is deposited into a test variable
+fPositionHolder[1] = fPositionHolder[1] + tPlayer.HSpeed();  //updates the player's horizontal position based off of the player's current Horizontal speed.
+//NOTE: POTENTIAL BUG: as it is written, a player will not stop unless it collides or until another button is pressed.  Perhaps simulate frictin by having speed slowly reach zero?
+//NOTE: POTENTIAL BUG: as it is, vertical speed will not reset to zero.  perhaps we can do this when we implement collision?
+fPositionHolder[2] = fPositionHolder[2] + tPlayer.VSpeed();
+tPlayer.MoveTo(fPositionHolder);  //updates the player's position to the new x and y coordinates.
+}
+
+    
+
