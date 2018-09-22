@@ -6,9 +6,9 @@
 //we should therefore implement a variable for current vertical speed that is constantly referenced and utilized for movement.
 //assuming 0,0 is bottom left
 //BEGIN character movement
-//assuming character has float VSpeed(), float[] Position(), void MoveTo(float[]), boolean jumpButtonPressed(), void setVSpeed(float tSpeed), float baseHorizontalSpeed(), boolean isJumping()
+//assuming character has float VSpeed(), float HSpeed(), float maxHSpeed(), void setHSpeed(float tSpeed), float[] Position(), void MoveTo(float[]), boolean jumpButtonPressed(), void setVSpeed(float tSpeed), float baseHorizontalAcc(), boolean isJumping()
 public void character movement(player tPlayer){
-float fNetHorizSpeed = 0;
+//float fNetHorizSpeed = 0;  -- depreciated, to be deleted on the next update version
 float gravityAcceleration = 10;
 float terminal_velocity = -220;
 float[] fPositionHolder = new float[2]; //or however you freaking instantiate arrays, I don't remember, it just needs two values
@@ -16,17 +16,17 @@ if tPlayer.jumpButtonPressed() AND (tPlayer.isJumping()=false){
 tPlayer.setVSpeed(100); //or whatever we want the initial jumping velocity to be, in pixels per tick
 }
 if tPlayer.rightButtonPressed(){
-fNetHorizSpeed + tPlayer.baseHorizontalSpeed();
+tPlayer.setHSpeed(tPlayer.HSpeed() + tPlayer.baseHorizontalAcc());
 }
 if tPlayer.leftButtonPressed(){
-fNetHorizSpeed - tPlayer.baseHorizontalSpeed();
+tPlayer.setHSpeed(tPlayer.HSpeed() - tPlayer.baseHorizontalAcc());//make it so that the setHSpeed function itself checks the new speed against maxHSpeed(), and makes sure that the absolute value of it's current HSpeed is less than the maximum value
 }
 //if we want a smoother control experience, we should probably implement acceleration, in which case, we need to be able to set and receive the players current horizontal speed
 if tPlayer.isJumping(){
 tPlayer.setVSpeed(math.max(tPlayer.VSpeed()-10,terminal_velocity));//makes sure that the player does not fall faster than the maximum falling speed
 }
 fPositionHolder = tPlayer.Position();
-fPositionHolder[1] = fPositionHolder[1] + fNetHorizSpeed;
+fPositionHolder[1] = fPositionHolder[1] + tPlayer.HSpeed();
 fPositionHolder[2] = fPositionHolder[2] + tPlayer.VSpeed();
 tPlayer.MoveTo(fPositionHolder);
 }
