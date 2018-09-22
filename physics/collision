@@ -1,0 +1,19 @@
+//there are different methods for checking for collision
+//basic overview; a completely isolated method takes two objects, and returns if they collide
+//advantages: simple, easy to understand
+//easy to return the result to the main game loop
+//disadvantages: would have to check every single possible collision possibility, and have programmed contingencies for different types of collisions, which, if hardcoded, would be unnecessarily repetitive.
+//even if we use an array or arraylist for collidable entities and simply checked for collision each tick, we would still need to define what happens for every single type of collision
+//
+//basic overview; each object has a collision method that is THROWN when it collides with something else
+//advantages; most commonly used method of checking for collision, most supported by extra software
+//this is the method used in the example, and the example code can be used in this case
+//disadvantages; somewhat complex, and I personally want to research this more before I try to implement this
+//I don't fully understand how this works
+//
+//basic overview; each object has a method that checks if it is colliding with a provided object, as well as a method that performs any actions necessary for such a collision
+//advantages; intuitive, logical, and easy to understand
+//modular
+//relies on the load order, allowing for collision to prioritize floors and the player
+//disadvantages; relies on the load order, meaning that, if collision moves an object, either we would need a boolean array to tell us which collision methods to activate, or some collisions would not be mutually experienced by both entities
+//requires every single collidable entity to be able to be placed in the same list AND have a common method
