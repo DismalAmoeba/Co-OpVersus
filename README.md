@@ -1,2 +1,2 @@
 # Co-OpVersus
-For GrizzHacks 2018. 
+For GrizzHacks3 2018. 
