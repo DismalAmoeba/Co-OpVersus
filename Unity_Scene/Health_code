@@ -1,0 +1,51 @@
+using UnityEngine;
+using System.Collections;
+
+public class Demo : MonoBehaviour 
+{
+	public int health;
+	
+	void Update()
+	{
+        DamagePlayer(1);
+		if(health <= 0)
+		{
+          
+            health = 0;
+			Destroy(gameObject, 5f);
+			print("You have died. Way to go.");
+		} 
+	}
+	
+	void DamagePlayer(int damage)
+	{
+		health -= damage;
+	}
+	
+}
+
+\\This is the example code for a health reducer^
+\\This code creates an object that detects the state of another object, in this case, when the "player" object dies
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Demo2 : MonoBehaviour {
+    public GameObject player_circle;
+    private Demo Player_One;
+	
+        // Use this for initialization
+	void Start ()
+    {
+        Player_One = player_circle.GetComponent<Demo>();
+	}
+	
+	// Update is called once per frame
+	void Update () {
+        if (Player_One.health <= 0)
+        {
+            print("Another object has detected that you died");
+        }
+	}
+}
