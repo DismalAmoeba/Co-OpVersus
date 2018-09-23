@@ -25,6 +25,7 @@ public class Physics : MonoBehaviour
 
         void Update(){
             grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+            //at this point, you should have a print function find out if 'grounded' is true or false, because if it is false, it never reaches the next statement
             if(Input.GetButtonDown("Jump")&& grounded){
 
                 jump = true;
